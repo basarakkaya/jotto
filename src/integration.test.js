@@ -22,6 +22,7 @@ describe("guessWord action dispatcher", () => {
         enteringNewWord: null,
         gaveUp: false,
         success: false,
+        serverError: false,
         guessedWords: [
           {
             guessedWord: unsuccessfulGuess,
@@ -42,6 +43,7 @@ describe("guessWord action dispatcher", () => {
         enteringNewWord: null,
         gaveUp: false,
         success: true,
+        serverError: false,
         guessedWords: [
           {
             guessedWord: secretWord,
@@ -74,6 +76,7 @@ describe("guessWord action dispatcher", () => {
         enteringNewWord: null,
         gaveUp: false,
         success: false,
+        serverError: false,
         guessedWords: [
           ...guessedWords,
           { guessedWord: unsuccessfulGuess, letterMatchCount: 3 },
@@ -91,6 +94,7 @@ describe("guessWord action dispatcher", () => {
         enteringNewWord: null,
         gaveUp: false,
         success: true,
+        serverError: false,
         guessedWords: [
           ...guessedWords,
           { guessedWord: secretWord, letterMatchCount: 5 },

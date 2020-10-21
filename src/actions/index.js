@@ -10,6 +10,7 @@ export const actionTypes = {
   GIVE_UP: "GIVE_UP",
   ENTERING_NEW_WORD: "ENTERING_NEW_WORD",
   ENTERED_NEW_WORD: "ENTERED_NEW_WORD",
+  SERVER_ERROR: "SERVER_ERROR",
 };
 
 // /**
@@ -21,12 +22,17 @@ export const actionTypes = {
 // }
 
 const getSecretWordDispatch = (dispatch) => {
-  return axios.get("http://localhost:3030").then((response) =>
-    dispatch({
-      type: actionTypes.SET_SECRET_WORD,
-      payload: response.data,
-    })
-  );
+  return axios
+    .get("http://localhost:3030")
+    .then((response) =>
+      dispatch({
+        type: actionTypes.SET_SECRET_WORD,
+        payload: response.data,
+      })
+    )
+    .catch((error) => {
+      dispatch({ type: actionTypes.SERVER_ERROR });
+    });
 };
 
 /**

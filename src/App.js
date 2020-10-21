@@ -9,6 +9,7 @@ import NewWordButton from "./components/NewWordButton";
 import SecretWordReveal from "./components/SecretWordReveal";
 import EnterWordButton from "./components/EnterWordButton";
 import EnterWordForm from "./components/EnterWordForm";
+import ServerError from "./components/ServerError";
 import {
   setUserEnteringWord,
   setUserEnteredWord,
@@ -26,26 +27,32 @@ export class UnconnectedApp extends Component {
     return (
       <div className="container">
         <h1>Jotto</h1>
-        {this.props.enteringNewWord === "inProgress" ? (
-          <EnterWordForm submitAction={this.props.setUserEnteredWord} />
+        {this.props.serverError ? (
+          <ServerError />
         ) : (
           <>
-            <Congrats success={this.props.success} />
-            <SecretWordReveal
-              show={this.props.gaveUp}
-              secretWord={this.props.secretWord}
-            />
-            <NewWordButton
-              show={this.props.success || this.props.gaveUp}
-              resetAction={this.props.resetAction}
-            />
-            <Input />
-            <GuessedWords guessedWords={this.props.guessedWords} />
-            <TotalGuesses />
-            <EnterWordButton
-              show={this.props.guessedWords.length === 0}
-              newWordAction={this.props.setUserEnteringWord}
-            />
+            {this.props.enteringNewWord === "inProgress" ? (
+              <EnterWordForm submitAction={this.props.setUserEnteredWord} />
+            ) : (
+              <>
+                <Congrats success={this.props.success} />
+                <SecretWordReveal
+                  show={this.props.gaveUp}
+                  secretWord={this.props.secretWord}
+                />
+                <NewWordButton
+                  show={this.props.success || this.props.gaveUp}
+                  resetAction={this.props.resetAction}
+                />
+                <Input />
+                <GuessedWords guessedWords={this.props.guessedWords} />
+                <TotalGuesses />
+                <EnterWordButton
+                  show={this.props.guessedWords.length === 0}
+                  newWordAction={this.props.setUserEnteringWord}
+                />
+              </>
+            )}
           </>
         )}
       </div>
@@ -54,8 +61,22 @@ export class UnconnectedApp extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { success, secretWord, guessedWords, gaveUp, enteringNewWord } = state;
-  return { success, secretWord, guessedWords, gaveUp, enteringNewWord };
+  const {
+    success,
+    secretWord,
+    guessedWords,
+    gaveUp,
+    enteringNewWord,
+    serverError,
+  } = state;
+  return {
+    success,
+    secretWord,
+    guessedWords,
+    gaveUp,
+    enteringNewWord,
+    serverError,
+  };
 };
 
 export default connect(mapStateToProps, {
