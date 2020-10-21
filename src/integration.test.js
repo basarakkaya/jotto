@@ -1,5 +1,5 @@
 import { storeFactory } from "../test/testUtils";
-import { guessWord } from "./actions";
+import { guessWord, setUserEnteredWord } from "./actions";
 
 describe("guessWord action dispatcher", () => {
   const secretWord = "party";
@@ -19,6 +19,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         ...initialState,
+        enteringNewWord: null,
         gaveUp: false,
         success: false,
         guessedWords: [
@@ -38,6 +39,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         ...initialState,
+        enteringNewWord: null,
         gaveUp: false,
         success: true,
         guessedWords: [
@@ -69,6 +71,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         secretWord,
+        enteringNewWord: null,
         gaveUp: false,
         success: false,
         guessedWords: [
@@ -85,6 +88,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         secretWord,
+        enteringNewWord: null,
         gaveUp: false,
         success: true,
         guessedWords: [
@@ -95,5 +99,28 @@ describe("guessWord action dispatcher", () => {
 
       expect(newState).toEqual(expectedState);
     });
+  });
+});
+
+describe("`setUserEnteredWord` action dispatcher", () => {
+  let store;
+  let newState;
+  const userSecretWord = "train";
+  const initialState = {
+    secretWord: "party",
+  };
+
+  beforeEach(() => {
+    store = storeFactory(initialState);
+    store.dispatch(setUserEnteredWord(userSecretWord));
+    newState = store.getState();
+  });
+
+  test("updates `secretWord` state correctly after entered Word", () => {
+    expect(newState.secretWord).toBe(userSecretWord);
+  });
+
+  test("updates `enteringNewWord` state as `done` after entered Word", () => {
+    expect(newState.enteringNewWord).toBe("done");
   });
 });

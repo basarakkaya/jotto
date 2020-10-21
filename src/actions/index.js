@@ -8,6 +8,8 @@ export const actionTypes = {
   SET_SECRET_WORD: "SET_SECRET_WORD",
   RESET_ACTION: "RESET_ACTION",
   GIVE_UP: "GIVE_UP",
+  ENTERING_NEW_WORD: "ENTERING_NEW_WORD",
+  ENTERED_NEW_WORD: "ENTERED_NEW_WORD",
 };
 
 // /**
@@ -63,4 +65,15 @@ export const resetAction = () => {
 
 export const giveUp = () => {
   return { type: actionTypes.GIVE_UP };
+};
+
+export const setUserEnteringWord = () => {
+  return { type: actionTypes.ENTERING_NEW_WORD };
+};
+
+export const setUserEnteredWord = (userWord) => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.SET_SECRET_WORD, payload: userWord });
+    dispatch({ type: actionTypes.ENTERED_NEW_WORD });
+  };
 };
