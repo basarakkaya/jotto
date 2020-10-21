@@ -13,6 +13,8 @@ export const actionTypes = {
   SERVER_ERROR: "SERVER_ERROR",
 };
 
+const WORDNIK_URL = `https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=5&api_key=${process.env.WORDNIK_API_KEY}`;
+
 // /**
 //  * @function correctGuess
 //  * @returns {object} Action object with type "CORRECT_GUESS"
@@ -28,6 +30,20 @@ const getSecretWordDispatch = (dispatch) => {
       dispatch({
         type: actionTypes.SET_SECRET_WORD,
         payload: response.data,
+      })
+    )
+    .catch((error) => {
+      dispatch({ type: actionTypes.SERVER_ERROR });
+    });
+};
+
+const getSecretWordDispatchFromWordnik = (dispatch) => {
+  return axios
+    .get(WORDNIK_URL)
+    .then((response) =>
+      dispatch({
+        type: actionTypes.SET_SECRET_WORD,
+        payload: response.data.word,
       })
     )
     .catch((error) => {
@@ -59,13 +75,15 @@ export const guessWord = (guessedWord) => {
 };
 
 export const getSecretWord = () => {
-  return getSecretWordDispatch;
+  return getSecretWordDispatchFromWordnik;
+  // return getSecretWordDispatch;
 };
 
 export const resetAction = () => {
   return (dispatch) => {
     dispatch({ type: actionTypes.RESET_ACTION });
-    return getSecretWordDispatch(dispatch);
+    return getSecretWordDispatchFromWordnik(dispatch);
+    // return getSecretWordDispatch(dispatch);
   };
 };
 

@@ -21,7 +21,8 @@ describe("getSecretWord action creator", () => {
 
       request.respondWith({
         status: 200,
-        response: secretWord,
+        response: { word: secretWord },
+        // response: secretWord,
       });
     });
 
