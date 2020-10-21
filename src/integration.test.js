@@ -19,6 +19,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         ...initialState,
+        gaveUp: false,
         success: false,
         guessedWords: [
           {
@@ -37,6 +38,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         ...initialState,
+        gaveUp: false,
         success: true,
         guessedWords: [
           {
@@ -67,6 +69,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         secretWord,
+        gaveUp: false,
         success: false,
         guessedWords: [
           ...guessedWords,
@@ -82,6 +85,7 @@ describe("guessWord action dispatcher", () => {
       const newState = store.getState();
       const expectedState = {
         secretWord,
+        gaveUp: false,
         success: true,
         guessedWords: [
           ...guessedWords,

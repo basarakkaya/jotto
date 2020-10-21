@@ -45,6 +45,12 @@ describe("render", () => {
 
       expect(submitButton.length).toBe(1);
     });
+
+    test("renders giveUp button", () => {
+      const component = findByTestAttr(wrapper, "give-up-button");
+
+      expect(component.length).toBe(1);
+    });
   });
 
   describe("word has been guessed", () => {
@@ -130,4 +136,16 @@ describe("guessWord action creator call", () => {
   test("input box clears on submit", () => {
     expect(wrapper.state("currentGuess")).toBe("");
   });
+});
+
+test("calls giveUp when clicked on giveUp button", () => {
+  const giveUpMock = jest.fn();
+  const wrapper = shallow(<UnconnectedInput giveUp={giveUpMock} />);
+
+  const giveUpButton = findByTestAttr(wrapper, "give-up-button");
+  giveUpButton.simulate("click", { preventDefault() {} });
+
+  const giveUpMockCallCount = giveUpMock.mock.calls.length;
+
+  expect(giveUpMockCallCount).toBe(1);
 });

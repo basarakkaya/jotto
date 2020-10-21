@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { guessWord } from "../actions";
+import { giveUp, guessWord } from "../actions";
 
 export class UnconnectedInput extends Component {
   state = {
-    currentGuess: null,
+    currentGuess: "",
   };
 
   submitGuessedWord = (e) => {
@@ -18,10 +18,15 @@ export class UnconnectedInput extends Component {
     }
   };
 
+  giveUp = (e) => {
+    e.preventDefault();
+    this.props.giveUp();
+  };
+
   render() {
     return (
       <div data-test="component-input">
-        {this.props.success ? null : (
+        {this.props.success || this.props.gaveUp ? null : (
           <form className="form-inline">
             <input
               data-test="input-box"
@@ -39,6 +44,13 @@ export class UnconnectedInput extends Component {
             >
               Submit
             </button>
+            <button
+              data-test="give-up-button"
+              className="btn btn-danger mb-2"
+              onClick={this.giveUp}
+            >
+              Give Up
+            </button>
           </form>
         )}
       </div>
@@ -46,6 +58,8 @@ export class UnconnectedInput extends Component {
   }
 }
 
-const mapStateToProps = ({ success }) => ({ success });
+const mapStateToProps = ({ gaveUp, success }) => ({ gaveUp, success });
 
-export default connect(mapStateToProps, { guessWord })(UnconnectedInput);
+export default connect(mapStateToProps, { giveUp, guessWord })(
+  UnconnectedInput
+);
