@@ -10,6 +10,8 @@ export default (state = [], action) => {
   switch (action.type) {
     case actionTypes.GUESS_WORD:
       return [...state, action.payload];
+    case actionTypes.RESET_ACTION:
+      return [];
     default:
       return state;
   }

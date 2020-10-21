@@ -14,3 +14,11 @@ test("returns state of true upon receiving an action of type 'CORRECT_GUESS'", (
 
   expect(newState).toBe(true);
 });
+
+test("returns state of false upon receiving an action of type 'RESET_ACTION'", () => {
+  const newState = successReducer(undefined, {
+    type: actionTypes.RESET_ACTION,
+  });
+
+  expect(newState).toBe(false);
+});

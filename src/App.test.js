@@ -45,6 +45,12 @@ describe("redux properties", () => {
 
     expect(getSecretWordProp).toBeInstanceOf(Function);
   });
+  test("resetAction action creator is a function on the props", () => {
+    const wrapper = setup();
+    const resetActionProp = wrapper.instance().props.resetAction;
+
+    expect(resetActionProp).toBeInstanceOf(Function);
+  });
 });
 
 test("getSecretWord runs on App mount", () => {

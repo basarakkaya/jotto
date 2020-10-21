@@ -32,3 +32,11 @@ describe("getSecretWord action creator", () => {
     });
   });
 });
+
+describe('resetAction action creator', () => {
+  test('', () => {
+    
+  })
+  
+})
+
