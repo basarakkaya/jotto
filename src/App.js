@@ -1,87 +1,26 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
 
-import Congrats from "./components/Congrats";
-import GuessedWords from "./components/GuessedWords";
-import Input from "./components/Input";
-import TotalGuesses from "./components/TotalGuesses";
-import NewWordButton from "./components/NewWordButton";
-import SecretWordReveal from "./components/SecretWordReveal";
-import EnterWordButton from "./components/EnterWordButton";
-import EnterWordForm from "./components/EnterWordForm";
-import ServerError from "./components/ServerError";
-import {
-  setUserEnteringWord,
-  setUserEnteredWord,
-  getSecretWord,
-  resetAction,
-} from "./actions";
-
-export class UnconnectedApp extends Component {
-  componentDidMount() {
-    // get the secret word
-    this.props.getSecretWord();
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <h1>Jotto</h1>
-        {this.props.serverError ? (
-          <ServerError />
-        ) : (
-          <>
-            {this.props.enteringNewWord === "inProgress" ? (
-              <EnterWordForm submitAction={this.props.setUserEnteredWord} />
-            ) : (
-              <>
-                <Congrats success={this.props.success} />
-                <SecretWordReveal
-                  show={this.props.gaveUp}
-                  secretWord={this.props.secretWord}
-                />
-                <NewWordButton
-                  show={this.props.success || this.props.gaveUp}
-                  resetAction={this.props.resetAction}
-                />
-                <Input />
-                <GuessedWords guessedWords={this.props.guessedWords} />
-                <TotalGuesses />
-                <EnterWordButton
-                  show={this.props.guessedWords.length === 0}
-                  newWordAction={this.props.setUserEnteringWord}
-                />
-              </>
-            )}
-          </>
-        )}
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  const {
-    success,
-    secretWord,
-    guessedWords,
-    gaveUp,
-    enteringNewWord,
-    serverError,
-  } = state;
-  return {
-    success,
-    secretWord,
-    guessedWords,
-    gaveUp,
-    enteringNewWord,
-    serverError,
-  };
-};
-
-export default connect(mapStateToProps, {
-  setUserEnteringWord,
-  setUserEnteredWord,
-  getSecretWord,
-  resetAction,
-})(UnconnectedApp);
+export default App;
