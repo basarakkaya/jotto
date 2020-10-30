@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 
+import Input from "./components/Input";
 import hookActions from "./actions/hookActions";
 
 /**
@@ -20,7 +21,7 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [state, dispatch] = React.useReducer(reducer, { secretWord: null });
+  const [state, dispatch] = React.useReducer(reducer, { secretWord: "" });
 
   const setSecretWord = (secretWord) =>
     dispatch({ type: "setSecretWord", payload: secretWord });
@@ -29,7 +30,23 @@ function App() {
     hookActions.getSecretWord(setSecretWord);
   }, []);
 
-  return <div data-test="component-app" />;
+  return (
+    <div className="container">
+      <h1>Jotto</h1>
+      {state.secretWord ? (
+        <div data-test="component-app">
+          <Input secretWord={state.secretWord} />
+        </div>
+      ) : (
+        <div data-test="spinner">
+          <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <p>Loading secret word</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App;
