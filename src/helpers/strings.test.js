@@ -8,26 +8,48 @@ const strings = {
   mermish: {},
 };
 
-test("returns correct submit string for english", () => {
-  const string = getStringByLanguage("en", "submit", strings);
+describe("language string testing", () => {
+  const mockWarn = jest.fn();
+  let originalWarn;
 
-  expect(string).toBe("submit");
-});
+  beforeEach(() => {
+    originalWarn = console.warn;
+    console.warn = mockWarn;
+  });
 
-test("returns correct submit string for emoji", () => {
-  const string = getStringByLanguage("emoji", "submit", strings);
+  afterEach(() => {
+    console.warn = originalWarn;
+  });
 
-  expect(string).toBe("🚀");
-});
+  test("returns correct submit string for english", () => {
+    const string = getStringByLanguage("en", "submit", strings);
 
-test("returns english submit string when language does not exist", () => {
-  const string = getStringByLanguage("notLanguage", "submit", strings);
+    expect(string).toBe("submit");
+    expect(mockWarn).not.toHaveBeenCalled();
+  });
 
-  expect(string).toBe("submit");
-});
+  test("returns correct submit string for emoji", () => {
+    const string = getStringByLanguage("emoji", "submit", strings);
 
-test("returns english submit string when submit key does not exist for language", () => {
-  const string = getStringByLanguage("mermish", "submit", strings);
+    expect(string).toBe("🚀");
+    expect(mockWarn).not.toHaveBeenCalled();
+  });
 
-  expect(string).toBe("submit");
+  test("returns english submit string when language does not exist", () => {
+    const string = getStringByLanguage("notLanguage", "submit", strings);
+
+    expect(string).toBe("submit");
+    expect(mockWarn).toHaveBeenCalledWith(
+      "Could not get string [submit] for [notLanguage]"
+    );
+  });
+
+  test("returns english submit string when submit key does not exist for language", () => {
+    const string = getStringByLanguage("mermish", "submit", strings);
+
+    expect(string).toBe("submit");
+    expect(mockWarn).toHaveBeenCalledWith(
+      "Could not get string [submit] for [mermish]"
+    );
+  });
 });
