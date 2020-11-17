@@ -4,15 +4,21 @@ import { mount, shallow } from "enzyme";
 import { checkProps, findByTestAttr } from "../../test/testUtils";
 import Input from "./Input";
 import languageContext from "../contexts/languageContext";
+import successContext from "../contexts/successContext";
+import guessedWordsContext from "../contexts/guessedWordsContext";
 
 const defaultProps = {
   secretWord: "party",
 };
 
-const setup = ({ secretWord = "party", language = "en" }) => {
+const setup = ({ secretWord = "party", language = "en", success = false }) => {
   return mount(
     <languageContext.Provider value={language}>
-      <Input secretWord={secretWord} />
+      <successContext.SuccessProvider value={[success, jest.fn()]}>
+        <guessedWordsContext.GuessedWordsProvider>
+          <Input secretWord={secretWord} />
+        </guessedWordsContext.GuessedWordsProvider>
+      </successContext.SuccessProvider>
     </languageContext.Provider>
   );
 };
@@ -87,4 +93,10 @@ describe("languagePicker", () => {
 
     expect(submitButton.text()).toBe("🚀");
   });
+});
+
+test("input component does not show when success is true", () => {
+  const wrapper = setup({ secretWord: "party", success: true });
+
+  expect(wrapper.isEmptyRender()).toBe(true);
 });
